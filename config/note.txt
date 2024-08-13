@@ -1,0 +1,16 @@
+Urządzenia:
+1 - Fikcyjny licznik energii
+
+{
+  "1": {
+    "0": "0011223344",
+    "5": "0000",
+    "10": "0000",
+    "11": "0000"
+  }
+}
+
+"1" - adres modbus
+"5" - napięcie, INT
+"10" - pierwsza część zużycia energii w kWh, INT
+"11" - druga część zużycia energii w kWh, INT
