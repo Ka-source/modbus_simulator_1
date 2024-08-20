@@ -18,20 +18,24 @@ def increase_energy_by_random_value(address, step):
         energy_10_hex = device_data.get("10", "0000")
         energy_11_hex = device_data.get("11", "0000")
 
-        # Konwertuj wartości HEX na DEC
-        energy_10_dec = int(energy_10_hex, 16)
-        energy_11_dec = int(energy_11_hex, 16)
+        # Połącz wartości HEX, tworząc jedną liczbę
+        combined_hex = energy_10_hex + energy_11_hex
+
+        # Konwertuj połączoną wartość HEX na DEC
+        combined_dec = int(combined_hex, 16)
 
         # Wygeneruj losową wartość do zwiększenia (od 0 do step)
         random_increase = random.randint(0, step)
 
-        # Zwiększ wartości DEC o losową wartość
-        new_energy_10_dec = energy_10_dec + random_increase
-        new_energy_11_dec = energy_11_dec + random_increase
+        # Zwiększ wartość DEC o losową wartość
+        new_combined_dec = combined_dec + random_increase
 
-        # Konwertuj nowe wartości DEC na HEX (upewnij się, że mają 4 cyfry)
-        new_energy_10_hex = format(new_energy_10_dec, '04X')
-        new_energy_11_hex = format(new_energy_11_dec, '04X')
+        # Konwertuj nową wartość DEC na HEX (upewnij się, że ma 8 cyfr)
+        new_combined_hex = format(new_combined_dec, '08X')
+
+        # Rozdziel nową wartość HEX na dwie części dla rejestrów 10 i 11
+        new_energy_10_hex = new_combined_hex[:4]
+        new_energy_11_hex = new_combined_hex[4:]
 
         # Zaktualizuj wartości w urządzeniu
         device_data["10"] = new_energy_10_hex
@@ -43,7 +47,7 @@ def increase_energy_by_random_value(address, step):
 
         return new_energy_10_hex, new_energy_11_hex
     else:
-        return None  # Lub możesz zwrócić domyślną wartość, jeśli adres nie istnieje
+        return None
 
 
 def return_energy(address):
