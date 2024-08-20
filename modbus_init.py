@@ -3,7 +3,7 @@ import serial
 
 def serial_init():
     # Konfiguracja portu szeregowego
-    port = 'COM4'
+    port = '/dev/ttyUSB0'
     baud_rate = 9600
     parity = serial.PARITY_EVEN
     stop_bits = serial.STOPBITS_ONE

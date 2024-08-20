@@ -93,9 +93,11 @@ def request_analyze(request_data):
 
     frame_slave_address = modbus_data[0]
     frame_function_code = modbus_data[1]
-    frame_first_register = int(modbus_data[2] + modbus_data[3], 16)  # Konwertuj na int
-    frame_number_of_registers = int(modbus_data[4] + modbus_data[5], 16)  # Konwertuj na int
+    frame_first_register = int(modbus_data[2] + modbus_data[3], 10)  # Konwertuj na int
+    frame_number_of_registers = int(modbus_data[4] + modbus_data[5], 10)  # Konwertuj na int
     frame_only_data = modbus_data[4:-2]
+
+    print(f"Frame first register: {frame_first_register}")
 
     # Konwertuj na liczby całkowite
     modbus_data_int = [int(x, 16) for x in modbus_data]
@@ -152,13 +154,15 @@ def prepare_response_holding_register(slave_address: int, first_register: int, n
         return None
 
     device_data = devices[address_str]
+    print(f"dev: {device_data}")
 
     # Przygotuj dane odpowiedzi
     response = [slave_address, 0x03,
                 number_of_registers * 2]  # Slave address + Function code 0x03 (Read Holding Registers)
-
+    print(f"First register: {first_register}")
     # Dodaj wartości rejestrów
     for register in range(first_register, first_register + number_of_registers):
+        print(register)
         register_value = device_data.get(str(register), "0000")
         response.extend([int(register_value[i:i+2], 16) for i in range(0, len(register_value), 2)])
 
